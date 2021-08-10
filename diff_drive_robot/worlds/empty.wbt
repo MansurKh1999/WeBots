@@ -1,0 +1,116 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.8936575425033043 -0.4235767131602746 -0.14818557553045772 0.6583490727810218
+  position -0.45574645147876347 0.9265531263109231 1.4004434820369471
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  children [
+    DEF Body Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.964706 1 0.294118
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.045 0.025 0
+      }
+      device [
+        DEF motor1 RotationalMotor {
+          name "motor1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 0 -1.5707179855829965e-16 1 1.5699999999999994
+        children [
+          DEF wheel Shape {
+            appearance DEF wheel_appearance PBRAppearance {
+              baseColor 0 0 1
+              roughness 1
+              metalness 0
+            }
+            geometry DEF wheel_geometry Cylinder {
+              height 0.01
+              radius 0.025
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics DEF wheel_physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.045 0.025 0
+      }
+      device [
+        DEF motor2 RotationalMotor {
+          name "motor2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 9.816987409893725e-17 0 1 1.57
+        children [
+          USE wheel
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics USE wheel_physics
+      }
+    }
+    Solid {
+      translation 0.01 0.07 0.045
+      children [
+        DEF eye Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.004 0.004 0.004
+          }
+        }
+      ]
+      name "eye"
+      boundingObject USE eye
+      physics DEF eye_physics Physics {
+      }
+    }
+    Solid {
+      translation -0.01 0.07 0.045
+      children [
+        USE eye
+      ]
+      name "eye2"
+      boundingObject USE eye
+      physics USE eye_physics
+    }
+  ]
+  boundingObject USE Body
+  physics Physics {
+  }
+  controller "driveMyMiniRobot"
+}
